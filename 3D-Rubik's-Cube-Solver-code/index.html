@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced 3D Rubik's Cube Solver</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+     <div class="container">
+        <div class="header">
+            <h1>🎲 Enhanced 3D Rubik's Cube Solver 🎲</h1>
+            <p style="font-size: 1.2em; color: #7f8c8d; margin-top: 10px;">
+                Interactive 3D Visualization with Real Layer-by-Layer Algorithm
+            </p>
+        </div>
+
+        <div class="main-content">
+            <div class="cube-section">
+                <h2 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">3D Animated Cube</h2>
+                <div class="cube-container">
+                    <div class="cube" id="rubiksCube">
+                        <!-- Front Face (Blue) -->
+                        <div class="cube-face front" id="front-face">
+                            <div class="sticker blue" data-face="F" data-pos="0"></div>
+                            <div class="sticker blue" data-face="F" data-pos="1"></div>
+                            <div class="sticker blue" data-face="F" data-pos="2"></div>
+                            <div class="sticker blue" data-face="F" data-pos="3"></div>
+                            <div class="sticker blue" data-face="F" data-pos="4"></div>
+                            <div class="sticker blue" data-face="F" data-pos="5"></div>
+                            <div class="sticker blue" data-face="F" data-pos="6"></div>
+                            <div class="sticker blue" data-face="F" data-pos="7"></div>
+                            <div class="sticker blue" data-face="F" data-pos="8"></div>
+                        </div>
+                        <!-- Back Face (Green) -->
+                        <div class="cube-face back" id="back-face">
+                            <div class="sticker green" data-face="B" data-pos="0"></div>
+                            <div class="sticker green" data-face="B" data-pos="1"></div>
+                            <div class="sticker green" data-face="B" data-pos="2"></div>
+                            <div class="sticker green" data-face="B" data-pos="3"></div>
+                            <div class="sticker green" data-face="B" data-pos="4"></div>
+                            <div class="sticker green" data-face="B" data-pos="5"></div>
+                            <div class="sticker green" data-face="B" data-pos="6"></div>
+                            <div class="sticker green" data-face="B" data-pos="7"></div>
+                            <div class="sticker green" data-face="B" data-pos="8"></div>
+                        </div>
+                        <!-- Right Face (Red) -->
+                        <div class="cube-face right" id="right-face">
+                            <div class="sticker red" data-face="R" data-pos="0"></div>
+                            <div class="sticker red" data-face="R" data-pos="1"></div>
+                            <div class="sticker red" data-face="R" data-pos="2"></div>
+                            <div class="sticker red" data-face="R" data-pos="3"></div>
+                            <div class="sticker red" data-face="R" data-pos="4"></div>
+                            <div class="sticker red" data-face="R" data-pos="5"></div>
+                            <div class="sticker red" data-face="R" data-pos="6"></div>
+                            <div class="sticker red" data-face="R" data-pos="7"></div>
+                            <div class="sticker red" data-face="R" data-pos="8"></div>
+                        </div>
+                        <!-- Left Face (Orange) -->
+                        <div class="cube-face left" id="left-face">
+                            <div class="sticker orange" data-face="L" data-pos="0"></div>
+                            <div class="sticker orange" data-face="L" data-pos="1"></div>
+                            <div class="sticker orange" data-face="L" data-pos="2"></div>
+                            <div class="sticker orange" data-face="L" data-pos="3"></div>
+                            <div class="sticker orange" data-face="L" data-pos="4"></div>
+                            <div class="sticker orange" data-face="L" data-pos="5"></div>
+                            <div class="sticker orange" data-face="L" data-pos="6"></div>
+                            <div class="sticker orange" data-face="L" data-pos="7"></div>
+                            <div class="sticker orange" data-face="L" data-pos="8"></div>
+                        </div>
+                        <!-- Top Face (White) -->
+                        <div class="cube-face top" id="top-face">
+                            <div class="sticker white" data-face="U" data-pos="0"></div>
+                            <div class="sticker white" data-face="U" data-pos="1"></div>
+                            <div class="sticker white" data-face="U" data-pos="2"></div>
+                            <div class="sticker white" data-face="U" data-pos="3"></div>
+                            <div class="sticker white" data-face="U" data-pos="4"></div>
+                            <div class="sticker white" data-face="U" data-pos="5"></div>
+                            <div class="sticker white" data-face="U" data-pos="6"></div>
+                            <div class="sticker white" data-face="U" data-pos="7"></div>
+                            <div class="sticker white" data-face="U" data-pos="8"></div>
+                        </div>
+                        <!-- Bottom Face (Yellow) -->
+                        <div class="cube-face bottom" id="bottom-face">
+                            <div class="sticker yellow" data-face="D" data-pos="0"></div>
+                            <div class="sticker yellow" data-face="D" data-pos="1"></div>
+                            <div class="sticker yellow" data-face="D" data-pos="2"></div>
+                            <div class="sticker yellow" data-face="D" data-pos="3"></div>
+                            <div class="sticker yellow" data-face="D" data-pos="4"></div>
+                            <div class="sticker yellow" data-face="D" data-pos="5"></div>
+                            <div class="sticker yellow" data-face="D" data-pos="6"></div>
+                            <div class="sticker yellow" data-face="D" data-pos="7"></div>
+                            <div class="sticker yellow" data-face="D" data-pos="8"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="current-move" id="currentMove">Ready for moves</div>
+
+                <div class="speed-control">
+                    <label for="speedSlider" style="font-weight: bold;">Animation Speed:</label>
+                    <input type="range" id="speedSlider" class="speed-slider" min="0.5" max="3" step="0.1" value="1">
+                    <span id="speedValue">1.0x</span>
+                </div>
+
+                <div class="controls">
+                    <button class="btn" onclick="scrambleCube()" id="scrambleBtn">🔀 Scramble</button>
+                    <button class="btn success" onclick="solveCube()" id="solveBtn">🎯 Solve</button>
+                    <button class="btn warning" onclick="stepSolve()" id="stepBtn">👣 Step Solve</button>
+                    <button class="btn danger" onclick="resetCube()" id="resetBtn">🔄 Reset</button>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="solveProgress"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Ready to solve</div>
+                </div>
+            </div>
+
+            <div class="output-section">
+                <h2 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">Algorithm Output</h2>
+                
+                <div class="status">
+                    <div class="status-item">
+                        <div class="status-value" id="moveCount">0</div>
+                        <div class="status-label">Moves</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value" id="solveTime">0ms</div>
+                        <div class="status-label">Time</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value" id="cubeStatus">Solved</div>
+                        <div class="status-label">Status</div>
+                    </div>
+                </div>
+
+                <div class="output" id="algorithmOutput">
+🎯 Enhanced 3D Rubik's Cube Solver Ready!
+
+✨ Features:
+- Real layer-by-layer solving algorithm
+- Proper scramble and solve mechanics
+- 3D animations for every move
+- Visual feedback for algorithm execution
+
+📝 Instructions:
+1. Click "Scramble" to mix the cube
+2. Click "Solve" to watch the layer-by-layer method
+3. Use manual controls to practice moves
+4. Adjust animation speed as needed
+
+Ready to solve with the proper algorithm!
+                </div>
+            </div>
+        </div>
+
+        <div class="manual-controls">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">Manual Move Controls</h2>
+            
+            <div class="move-buttons">
+                <button class="move-btn" onclick="executeAnimatedMove('R')" title="Right Clockwise">R</button>
+                <button class="move-btn" onclick="executeAnimatedMove('R\'')" title="Right Counter-Clockwise">R'</button>
+                <button class="move-btn" onclick="executeAnimatedMove('L')" title="Left Clockwise">L</button>
+                <button class="move-btn" onclick="executeAnimatedMove('L\'')" title="Left Counter-Clockwise">L'</button>
+                <button class="move-btn" onclick="executeAnimatedMove('U')" title="Up Clockwise">U</button>
+                <button class="move-btn" onclick="executeAnimatedMove('U\'')" title="Up Counter-Clockwise">U'</button>
+                <button class="move-btn" onclick="executeAnimatedMove('D')" title="Down Clockwise">D</button>
+                <button class="move-btn" onclick="executeAnimatedMove('D\'')" title="Down Counter-Clockwise">D'</button>
+                <button class="move-btn" onclick="executeAnimatedMove('F')" title="Front Clockwise">F</button>
+                <button class="move-btn" onclick="executeAnimatedMove('F\'')" title="Front Counter-Clockwise">F'</button>
+                <button class="move-btn" onclick="executeAnimatedMove('B')" title="Back Clockwise">B</button>
+                <button class="move-btn" onclick="executeAnimatedMove('B\'')" title="Back Counter-Clockwise">B'</button>
+            </div>
+
+            <div class="controls">
+                <button class="btn" onclick="undoLastMove()">↶ Undo Move</button>
+                <button class="btn" onclick="clearMoves()">🗑 Clear History</button>
+                <button class="btn" onclick="demonstrateAlgorithm('sexy')">🎭 Demo Algorithm</button>
+                <button class="btn" onclick="testSolver()">🧪 Test Solver</button>
+            </div>
+        </div>
+
+         <div class="algorithm-section">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">Algorithm Reference</h2>
+            
+            <div class="algorithm-tabs">
+                <button class="tab active" onclick="showTab('basic')">Basic Moves</button>
+                <button class="tab" onclick="showTab('patterns')">Common Patterns</button>
+                <button class="tab" onclick="showTab('advanced')">Advanced Algorithms</button>
+                <button class="tab" onclick="showTab('oll')">OLL Patterns</button>
+                <button class="tab" onclick="showTab('pll')">PLL Patterns</button>
+            </div>
+
+            <div class="tab-content active" id="basic">
+                <h3>Basic Move Notation</h3>
+                <ul class="algorithm-list">
+                    <li><div class="algorithm-name">R - Right Face Clockwise</div><div class="algorithm-moves">90° rotation of right face</div></li>
+                    <li><div class="algorithm-name">R' - Right Face Counter-Clockwise</div><div class="algorithm-moves">90° counter-rotation of right face</div></li>
+                    <li><div class="algorithm-name">U - Up Face Clockwise</div><div class="algorithm-moves">90° rotation of top face</div></li>
+                    <li><div class="algorithm-name">U' - Up Face Counter-Clockwise</div><div class="algorithm-moves">90° counter-rotation of top face</div></li>
+                    <li><div class="algorithm-name">F - Front Face Clockwise</div><div class="algorithm-moves">90° rotation of front face</div></li>
+                    <li><div class="algorithm-name">F' - Front Face Counter-Clockwise</div><div class="algorithm-moves">90° counter-rotation of front face</div></li>
+                </ul>
+            </div>
+
+            <div class="tab-content" id="patterns">
+                <h3>Common Solving Patterns</h3>
+                <ul class="algorithm-list">
+                    <li><div class="algorithm-name">Sexy Move</div><div class="algorithm-moves">R U R' U'</div></li>
+                    <li><div class="algorithm-name">Right Hand Algorithm</div><div class="algorithm-moves">R U R' F R F'</div></li>
+                    <li><div class="algorithm-name">Left Hand Algorithm</div><div class="algorithm-moves">L' U' L F' L' F</div></li>
+                    <li><div class="algorithm-name">Sledgehammer</div><div class="algorithm-moves">R' F R F'</div></li>
+                    <li><div class="algorithm-name">J-Perm</div><div class="algorithm-moves">R U R' F' R U R' U' R' F R2 U' R'</div></li>
+                </ul>
+            </div>
+
+            <div class="tab-content" id="advanced">
+                <h3>Advanced Layer-by-Layer Algorithms</h3>
+                <ul class="algorithm-list">
+                    <li><div class="algorithm-name">Cross Formation</div><div class="algorithm-moves">F R U R' U' F'</div></li>
+                    <li><div class="algorithm-name">Corner Insertion</div><div class="algorithm-moves">R U' R' U R U' R'</div></li>
+                    <li><div class="algorithm-name">Edge Orientation</div><div class="algorithm-moves">F R U R' U' R U R' U' F'</div></li>
+                    <li><div class="algorithm-name">Corner Permutation</div><div class="algorithm-moves">R U R' F' R U R' U' R' F R2 U' R'</div></li>
+                </ul>
+            </div>
+
+            <div class="tab-content" id="oll">
+                <h3>OLL (Orientation of Last Layer)</h3>
+                <ul class="algorithm-list">
+                    <li><div class="algorithm-name">OLL 21 - Cross</div><div class="algorithm-moves">F R U R' U' R U R' U' F'</div></li>
+                    <li><div class="algorithm-name">OLL 22 - L Shape</div><div class="algorithm-moves">R U R' U R U' R' U R U2 R'</div></li>
+                    <li><div class="algorithm-name">OLL 23 - T Shape</div><div class="algorithm-moves">R2 D R' U2 R D' R' U2 R'</div></li>
+                    <li><div class="algorithm-name">OLL 27 - Lightning</div><div class="algorithm-moves">R U R' U R U2 R'</div></li>
+                </ul>
+            </div>
+
+            <div class="tab-content" id="pll">
+                <h3>PLL (Permutation of Last Layer)</h3>
+                <ul class="algorithm-list">
+                    <li><div class="algorithm-name">T-Perm</div><div class="algorithm-moves">R U R' F' R U R' U' R' F R2 U' R'</div></li>
+                    <li><div class="algorithm-name">Y-Perm</div><div class="algorithm-moves">F R U' R' U' R U R' F' R U R' U' R' F R F'</div></li>
+                    <li><div class="algorithm-name">A-Perm</div><div class="algorithm-moves">R' F R' B2 R F' R' B2 R2</div></li>
+                    <li><div class="algorithm-name">U-Perm</div><div class="algorithm-moves">R U' R U R U R U' R' U' R2</div></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>&copy; 2025 Praju</p>
+            <p style="margin-top: 10px; color: #7f8c8d;">
+                Featuring layer-by-layer solving algorithm with 3D visualization and full manual controls
+            </p>
+        </div>
+    </div>
+        
+
+    <script src="script.js"></script>
+</body>
+</html>
